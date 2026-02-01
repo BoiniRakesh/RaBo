@@ -2,29 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>One Important Question 😏</title>
+<title>Just one thing 😌</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
   body {
     margin: 0;
     height: 100vh;
+    font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial, sans-serif;
     color: white;
     text-align: center;
     overflow: hidden;
   }
 
-  .card {
-    background: rgba(255,255,255,0.15);
-    padding: 30px;
-    border-radius: 20px;
+  .screen {
+    display: none;
     max-width: 90%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: fade 0.6s ease;
+  }
+
+  .screen.active {
+    display: block;
   }
 
   h1 {
@@ -33,32 +35,23 @@
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-bottom: 25px;
+    line-height: 1.5;
   }
 
   button {
-    padding: 14px 28px;
+    padding: 14px 30px;
     font-size: 18px;
     border-radius: 30px;
     border: none;
     cursor: pointer;
-    margin: 10px;
-  }
-
-  #yesBtn {
-    background: #ff1744;
-    color: white;
-  }
-
-  #noBtn {
     background: white;
     color: #ff1744;
-    position: absolute;
   }
 
-  #result {
-    display: none;
+  button:hover {
+    transform: scale(1.05);
   }
 
   img {
@@ -66,55 +59,79 @@
     border-radius: 15px;
     margin-top: 20px;
   }
+
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 </style>
 </head>
 
 <body>
 
-<div class="card" id="question">
-  <h1>Hey… I have a serious question 😌</h1>
-  <p>Will you be my Valentine? 💖</p>
-
-  <button id="yesBtn" onclick="yesClicked()">Yes ❤️</button>
-  <button id="noBtn" onmouseover="moveNo()">No 🙃</button>
+<!-- SCREEN 1 -->
+<div class="screen active">
+  <h1>Hey… wait 😌</h1>
+  <p>
+    I promise I won’t take long.<br>
+    Just wanted a moment of your attention.
+  </p>
+  <button onclick="next()">Okay…</button>
 </div>
 
-<div class="card" id="result">
-  <h1>I knew it 😎💘</h1>
+<!-- SCREEN 2 -->
+<div class="screen">
+  <h1>Just saying 😏</h1>
   <p>
-    If Virat can commit, so can I 💪❤️<br>
-    Now you’re officially stuck with me 😜
+    You have this way of making things better.<br>
+    Even bad days don’t stand a chance.
   </p>
+  <button onclick="next()">Hmm…</button>
+</div>
 
-  <!-- WORKING ONLINE IMAGE -->
+<!-- SCREEN 3 -->
+<div class="screen">
+  <h1>Be honest 😄</h1>
+  <p>
+    You’re smiling a little right now, aren’t you?<br>
+    It’s okay… I like that smile.
+  </p>
+  <button onclick="next()">Keep going</button>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="screen">
+  <h1>Confidence moment 😎</h1>
+  <p>
+    If Virat can commit,<br>
+    then I definitely can 💪❤️
+  </p>
   <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Virat_Kohli_in_2023.jpg"
        alt="Virat Kohli">
+  <br><br>
+  <button onclick="next()">Final question</button>
+</div>
+
+<!-- SCREEN 5 -->
+<div class="screen">
+  <h1>Okay… here it is 💖</h1>
+  <p>
+    Life feels lighter with you.<br>
+    Laughs come easier.<br>
+    And I don’t want this Valentine’s Day without you.
+  </p>
+
+  <h1>Will you be my Valentine? ❤️</h1>
 </div>
 
 <script>
-  const messages = [
-    "Hey… that was close 😅",
-    "Wrong button 😂",
-    "Nice try 😜",
-    "No option is under maintenance 😏",
-    "Just click YES already 😍"
-  ];
+  let current = 0;
+  const screens = document.querySelectorAll(".screen");
 
-  let count = 0;
-
-  function moveNo() {
-    const btn = document.getElementById("noBtn");
-    btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-
-    document.querySelector("#question p").textContent =
-      messages[count % messages.length];
-    count++;
-  }
-
-  function yesClicked() {
-    document.getElementById("question").style.display = "none";
-    document.getElementById("result").style.display = "block";
+  function next() {
+    screens[current].classList.remove("active");
+    current++;
+    screens[current].classList.add("active");
   }
 </script>
 
