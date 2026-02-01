@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Important Question 😏</title>
+<title>One Important Question 😏</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -81,18 +81,22 @@
 
 <div class="card" id="result">
   <h1>I knew it 😎💘</h1>
-  <p>Congratulations!  
-  You are now officially stuck with me 😜❤️</p>
+  <p>
+    If Virat can commit, so can I 💪❤️<br>
+    Now you’re officially stuck with me 😜
+  </p>
 
-  <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80">
+  <!-- WORKING ONLINE IMAGE -->
+  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Virat_Kohli_in_2023.jpg"
+       alt="Virat Kohli">
 </div>
 
 <script>
   const messages = [
     "Hey… that was close 😅",
-    "Nope, try again 😂",
-    "Wrong button 😜",
-    "This one doesn’t work 😏",
+    "Wrong button 😂",
+    "Nice try 😜",
+    "No option is under maintenance 😏",
     "Just click YES already 😍"
   ];
 
@@ -103,7 +107,7 @@
     btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
     btn.style.top = Math.random() * (window.innerHeight - 50) + "px";
 
-    document.querySelector("p").textContent =
+    document.querySelector("#question p").textContent =
       messages[count % messages.length];
     count++;
   }
