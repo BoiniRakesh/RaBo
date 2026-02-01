@@ -128,10 +128,24 @@
       color: #ff416c;
       position: absolute;
       transition: all 0.2s ease;
+      animation: shake 0.5s ease-in-out infinite;
     }
 
     #noBtn:hover {
       transform: scale(0.95);
+      animation: shake-fast 0.3s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-2deg); }
+      75% { transform: rotate(2deg); }
+    }
+
+    @keyframes shake-fast {
+      0%, 100% { transform: rotate(0deg) scale(0.95); }
+      25% { transform: rotate(-5deg) scale(0.95); }
+      75% { transform: rotate(5deg) scale(0.95); }
     }
 
     #result {
@@ -144,8 +158,16 @@
       max-width: 350px;
       border-radius: 20px;
       margin-top: 30px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      animation: float-img 3s ease-in-out infinite;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      animation: float-img-3d 4s ease-in-out infinite;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      transition: transform 0.3s ease;
+    }
+
+    #result img:hover {
+      transform: scale(1.05) rotateY(5deg) rotateX(5deg);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
     }
 
     @keyframes fadeInScale {
@@ -159,12 +181,14 @@
       }
     }
 
-    @keyframes float-img {
+    @keyframes float-img-3d {
       0%, 100% {
-        transform: translateY(0px);
+        transform: translateY(0px) rotateY(-3deg) rotateX(2deg);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
       }
       50% {
-        transform: translateY(-10px);
+        transform: translateY(-15px) rotateY(3deg) rotateX(-2deg);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
       }
     }
 
@@ -360,7 +384,7 @@
     
     <div class="button-container">
       <button id="yesBtn" onclick="sayYes()">Yes! ❤️</button>
-      <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No 💔</button>
+      <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No</button>
     </div>
   </div>
 
@@ -371,7 +395,7 @@
       Can't wait to create beautiful memories together! 💕
     </p>
     
-    <img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=800&q=80" 
+    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" 
          alt="Valentine's Love">
     
     <div class="celebration-section">
@@ -410,12 +434,12 @@
     let noClickCount = 0;
     const messages = [
       "Will you be my Valentine? 💖",
-      "Are you sure? Pretty please? 🥺",
-      "Don't break my heart! 💔",
-      "Think about all the fun we'll have! 🎉",
-      "You know you want to say yes... 😊",
-      "I'll be really sad if you say no 😢",
-      "One more chance? Please? 🙏"
+      "Are you sure? Think again! 🤔",
+      "The button is getting away! 😄",
+      "You know you want to say yes! 😊",
+      "Come on, just click YES! 😆",
+      "I won't give up that easily! 😎",
+      "Still chasing that NO button? 😂"
     ];
 
     function moveNo() {
