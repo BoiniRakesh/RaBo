@@ -66,7 +66,7 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.2);
       z-index: 1;
-      max-width: 500px;
+      max-width: 600px;
       position: relative;
     }
 
@@ -175,6 +175,114 @@
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
     }
 
+    .quote-section {
+      font-size: 1.1rem;
+      font-style: italic;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+      border-left: 4px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .quote-author {
+      display: block;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+      font-style: normal;
+    }
+
+    .celebration-section {
+      margin-top: 30px;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+    }
+
+    .celebration-text {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .date-section {
+      margin: 20px 0;
+    }
+
+    .date-section label {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .date-section input[type="date"] {
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 25px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.9);
+      color: #764ba2;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .date-section input[type="date"]:hover,
+    .date-section input[type="date"]:focus {
+      background: white;
+      border-color: rgba(255, 255, 255, 0.6);
+      outline: none;
+      transform: scale(1.05);
+    }
+
+    .message-section {
+      margin: 25px 0;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 15px;
+    }
+
+    .your-message {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: #ffe5e5;
+    }
+
+    .love-message {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      font-style: italic;
+      color: white;
+    }
+
+    .share-btn {
+      margin-top: 20px;
+      padding: 14px 35px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+    }
+
+    .share-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(245, 87, 108, 0.6);
+    }
+
+    .share-btn:active {
+      transform: translateY(-1px);
+    }
+
     .emoji-burst {
       position: fixed;
       pointer-events: none;
@@ -240,8 +348,15 @@
   <div class="heart-bg" id="heartBg"></div>
 
   <div class="container" id="question">
+    <div class="quote-section">
+      "In all the world, there is no heart for me like yours.<br>
+      In all the world, there is no love for you like mine."<br>
+      <span class="quote-author">— Maya Angelou</span>
+    </div>
+    
     <h1>Will you be my Valentine? 💖</h1>
-    <p class="message">I've been thinking about this moment... 🥰</p>
+    <p class="message">I've been thinking about this moment... 🥰<br>
+    You make every day brighter just by being in it.</p>
     
     <div class="button-container">
       <button id="yesBtn" onclick="sayYes()">Yes! ❤️</button>
@@ -253,11 +368,24 @@
     <h1>I knew you'd say YES! 😘💞</h1>
     <p class="message">
       You just made me the happiest person in the world! ✨<br>
-      Can't wait to celebrate with you! 💕
+      Can't wait to create beautiful memories together! 💕
     </p>
     
-    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80" 
+    <img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?auto=format&fit=crop&w=800&q=80" 
          alt="Valentine's Love">
+    
+    <div class="celebration-section">
+      <p class="celebration-text">Let's make this Valentine's Day special! 🌹</p>
+      <div class="date-section">
+        <label for="dateInput">Pick our special date:</label>
+        <input type="date" id="dateInput" min="2026-02-01" value="2026-02-14">
+      </div>
+      <div class="message-section">
+        <p class="your-message">A message for you:</p>
+        <p class="love-message">"Every moment with you is a treasure. Thank you for being mine. ❤️"</p>
+      </div>
+      <button class="share-btn" onclick="shareLove()">Share Our Love 💌</button>
+    </div>
   </div>
 
   <script>
@@ -387,6 +515,38 @@
         }
       }, 50);
     });
+
+    function shareLove() {
+      const dateInput = document.getElementById('dateInput');
+      const selectedDate = new Date(dateInput.value);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = selectedDate.toLocaleDateString('en-US', options);
+      
+      const shareText = `💕 We're celebrating Valentine's Day on ${formattedDate}! Love is in the air! ❤️✨`;
+      
+      // Check if Web Share API is available
+      if (navigator.share) {
+        navigator.share({
+          title: 'Be My Valentine! 💖',
+          text: shareText,
+        }).catch((error) => {
+          console.log('Error sharing:', error);
+        });
+      } else {
+        // Fallback: Copy to clipboard
+        navigator.clipboard.writeText(shareText).then(() => {
+          const btn = event.target;
+          const originalText = btn.textContent;
+          btn.textContent = 'Copied to Clipboard! ✓';
+          btn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+          
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+          }, 2000);
+        });
+      }
+    }
   </script>
 
 </body>
