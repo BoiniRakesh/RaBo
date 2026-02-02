@@ -83,24 +83,24 @@ button:hover { transform: scale(1.05); }
 
 .button-container {
   position: relative;
-  min-height: 90px;
+  min-height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
 }
 
 #yesBtn {
   background: linear-gradient(135deg, #ff416c, #ff4b2b);
   color: white;
-  z-index: 5;
+  z-index: 10;
 }
 
 #noBtn {
   background: #2c2c2c;
   color: white;
   min-width: 120px;
-  position: absolute;
+  position: fixed;
+  z-index: 20;
 }
 
 img {
@@ -210,15 +210,26 @@ setInterval(() => {
   setTimeout(() => h.remove(), 15000);
 }, 700);
 
-/* ❌ NO button escape logic */
+/* ❌ NO button escape (safe-zone logic) */
 const noBtn = document.getElementById("noBtn");
 
 function escapeNo(e){
   e.preventDefault();
-  const maxX = window.innerWidth - 140;
-  const maxY = window.innerHeight - 100;
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+
+  const yesRect = document.getElementById("yesBtn").getBoundingClientRect();
+  const padding = 140;
+  let x, y;
+
+  do {
+    x = Math.random() * (window.innerWidth - 140);
+    y = Math.random() * (window.innerHeight - 120);
+  } while (
+    x > yesRect.left - padding &&
+    x < yesRect.right + padding &&
+    y > yesRect.top - padding &&
+    y < yesRect.bottom + padding
+  );
+
   noBtn.style.left = x + "px";
   noBtn.style.top  = y + "px";
 }
