@@ -61,6 +61,8 @@
     align-items: center;
     flex-wrap: wrap;
     margin-top: 20px;
+    position: relative;
+    min-height: 80px;
   }
 
   #yesBtn {
@@ -73,7 +75,7 @@
   #noBtn {
     background: #2c2c2c;
     color: white;
-    position: absolute;
+    position: relative;
     min-width: 130px;
   }
 
@@ -179,12 +181,21 @@
 
   function moveNoButton(e) {
     e.preventDefault();
+    const btn = document.getElementById("noBtn");
+    
+    // Make it absolute positioned when moving
+    btn.style.position = 'absolute';
+    
     const maxX = window.innerWidth - 150;
     const maxY = window.innerHeight - 80;
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    const minX = 10;
+    const minY = 100;
+    
+    const x = minX + Math.random() * (maxX - minX);
+    const y = minY + Math.random() * (maxY - minY);
+    
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
   }
 
   // Make NO button impossible to click
