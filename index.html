@@ -6,10 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   body {
     margin: 0;
     height: 100vh;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
     display: flex;
     justify-content: center;
@@ -17,12 +23,52 @@
     color: white;
     text-align: center;
     overflow: hidden;
+    position: relative;
+  }
+
+  /* Floating hearts background */
+  .heart-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .heart {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.4;
+    animation: float 12s infinite;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.4;
+    }
+    90% {
+      opacity: 0.4;
+    }
+    100% {
+      transform: translateY(-100px) rotate(360deg);
+      opacity: 0;
+    }
   }
 
   .screen {
     display: none;
     max-width: 90%;
+    z-index: 1;
     animation: fade 0.6s ease;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   }
 
   .screen.active {
@@ -30,14 +76,15 @@
   }
 
   h1 {
-    font-size: 2rem;
-    margin-bottom: 15px;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   p {
     font-size: 1.2rem;
     margin-bottom: 25px;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   button {
@@ -48,32 +95,151 @@
     cursor: pointer;
     background: white;
     color: #ff1744;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 10px;
   }
 
   button:hover {
     transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  button:active {
+    transform: scale(0.98);
   }
 
   img {
-    width: 260px;
+    width: 280px;
+    max-width: 90%;
     border-radius: 15px;
     margin-top: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+  }
+
+  img:hover {
+    transform: scale(1.05);
   }
 
   @keyframes fade {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* Final screen special styling */
+  .final-screen {
+    max-width: 600px;
+  }
+
+  .button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+
+  #yesBtn {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: white;
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+    }
+    50% {
+      box-shadow: 0 4px 25px rgba(255, 65, 108, 0.8);
+    }
+  }
+
+  #noBtn {
+    background: white;
+    color: #ff416c;
+    position: absolute;
+    min-width: 120px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  /* Result screen */
+  #result {
+    display: none;
+    animation: fadeInScale 1s ease-in-out;
+  }
+
+  #result img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 20px;
+    margin-top: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: float-img-3d 4s ease-in-out infinite;
+  }
+
+  @keyframes fadeInScale {
+    from { 
+      opacity: 0; 
+      transform: scale(0.5) rotate(-5deg); 
+    }
+    to { 
+      opacity: 1; 
+      transform: scale(1) rotate(0deg); 
+    }
+  }
+
+  @keyframes float-img-3d {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  .celebration-message {
+    font-size: 1.3rem;
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  /* Mobile responsiveness */
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+    
+    p {
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+    }
+
+    .screen {
+      padding: 30px 20px;
+      margin: 20px;
+    }
+  }
 </style>
 </head>
 
 <body>
 
+<!-- Floating hearts background -->
+<div class="heart-bg" id="heartBg"></div>
+
 <!-- SCREEN 1 -->
 <div class="screen active">
   <h1>Hey… wait 😌</h1>
   <p>
-    I promise I won’t take long.<br>
+    I promise I won't take long.<br>
     Just wanted a moment of your attention.
   </p>
   <button onclick="next()">Okay…</button>
@@ -84,7 +250,7 @@
   <h1>Just saying 😏</h1>
   <p>
     You have this way of making things better.<br>
-    Even bad days don’t stand a chance.
+    Even bad days don't stand a chance.
   </p>
   <button onclick="next()">Hmm…</button>
 </div>
@@ -93,8 +259,8 @@
 <div class="screen">
   <h1>Be honest 😄</h1>
   <p>
-    You’re smiling a little right now, aren’t you?<br>
-    It’s okay… I like that smile.
+    You're smiling a little right now, aren't you?<br>
+    It's okay… I like that smile.
   </p>
   <button onclick="next()">Keep going</button>
 </div>
@@ -106,32 +272,163 @@
     If Virat can commit,<br>
     then I definitely can 💪❤️
   </p>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Virat_Kohli_in_2023.jpg"
-       alt="Virat Kohli">
+  <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=800&q=80"
+       alt="Cricket Champion">
   <br><br>
   <button onclick="next()">Final question</button>
 </div>
 
-<!-- SCREEN 5 -->
-<div class="screen">
+<!-- SCREEN 5 - Final Question -->
+<div class="screen final-screen">
   <h1>Okay… here it is 💖</h1>
   <p>
     Life feels lighter with you.<br>
     Laughs come easier.<br>
-    And I don’t want this Valentine’s Day without you.
+    And I don't want this Valentine's Day without you.
   </p>
 
-  <h1>Will you be my Valentine? ❤️</h1>
+  <h1 style="margin-top: 30px;">Will you be my Valentine? ❤️</h1>
+  
+  <div class="button-container">
+    <button id="yesBtn" onclick="sayYes()">Yes! ❤️</button>
+    <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No</button>
+  </div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div class="screen final-screen" id="result">
+  <h1>I knew you'd say YES! 😘💞</h1>
+  <p class="celebration-message">
+    You just made me the happiest person in the world! ✨<br>
+    Can't wait to make this Valentine's Day unforgettable with you! 💕
+  </p>
+  
+  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" 
+       alt="Valentine's Love">
+  
+  <p class="celebration-message" style="margin-top: 30px;">
+    Let's create beautiful memories together! 🌹💖
+  </p>
 </div>
 
 <script>
   let current = 0;
   const screens = document.querySelectorAll(".screen");
 
+  // Create floating hearts
+  function createFloatingHearts() {
+    const heartBg = document.getElementById('heartBg');
+    const hearts = ['❤️', '💕', '💖', '💗', '💓', '💝'];
+    
+    for (let i = 0; i < 12; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDelay = Math.random() * 12 + 's';
+      heart.style.animationDuration = (Math.random() * 8 + 8) + 's';
+      heartBg.appendChild(heart);
+    }
+  }
+
+  createFloatingHearts();
+
   function next() {
     screens[current].classList.remove("active");
     current++;
     screens[current].classList.add("active");
+  }
+
+  // No button text changes
+  let noClickCount = 0;
+  const noButtonTexts = [
+    "No",
+    "Are you sure? 🤔",
+    "Really? 😮",
+    "Think again! 😄",
+    "Don't do this! 😅",
+    "You sure? 🥺",
+    "Last chance! 😊",
+    "Please? 🙏"
+  ];
+
+  function moveNo() {
+    const btn = document.getElementById("noBtn");
+    
+    // Move button to random position
+    const maxX = window.innerWidth - 200;
+    const maxY = window.innerHeight - 80;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+    
+    // Change button text
+    noClickCount++;
+    if (noClickCount < noButtonTexts.length) {
+      btn.textContent = noButtonTexts[noClickCount];
+    } else {
+      btn.textContent = "Fine, keep trying! 😂";
+    }
+    
+    // Make Yes button bigger
+    const yesBtn = document.getElementById("yesBtn");
+    const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+    yesBtn.style.fontSize = (currentSize + 2) + "px";
+    yesBtn.style.padding = (14 + noClickCount * 2) + "px " + (30 + noClickCount * 4) + "px";
+  }
+
+  function createEmojiBurst(x, y) {
+    const emojis = ['❤️', '💕', '💖', '💗', '✨', '🎉', '💝', '😍'];
+    
+    for (let i = 0; i < 15; i++) {
+      const emoji = document.createElement('div');
+      emoji.style.position = 'fixed';
+      emoji.style.left = x + 'px';
+      emoji.style.top = y + 'px';
+      emoji.style.fontSize = (20 + Math.random() * 20) + 'px';
+      emoji.style.pointerEvents = 'none';
+      emoji.style.zIndex = '1000';
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      
+      const tx = (Math.random() - 0.5) * 300;
+      const ty = (Math.random() - 0.5) * 300;
+      
+      emoji.animate([
+        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+        { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+      ], {
+        duration: 1500,
+        easing: 'ease-out'
+      });
+      
+      document.body.appendChild(emoji);
+      setTimeout(() => emoji.remove(), 1500);
+    }
+  }
+
+  function sayYes() {
+    const rect = document.getElementById("yesBtn").getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    
+    createEmojiBurst(x, y);
+    
+    setTimeout(() => {
+      screens[current].classList.remove("active");
+      document.getElementById("result").classList.add("active");
+      
+      // Create celebration bursts
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          createEmojiBurst(
+            Math.random() * window.innerWidth,
+            Math.random() * window.innerHeight
+          );
+        }, i * 100);
+      }
+    }, 500);
   }
 </script>
 
