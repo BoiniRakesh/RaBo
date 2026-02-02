@@ -42,32 +42,62 @@
     border: none;
     cursor: pointer;
     font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  .single-button {
+    background: white;
+    color: #ff416c;
+  }
+
+  .button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
   }
 
   #yesBtn {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
     color: white;
-    margin: 10px;
+    position: relative;
+    z-index: 10;
   }
 
   #noBtn {
-    background: white;
-    color: #ff416c;
+    background: #2c2c2c;
+    color: white;
     position: absolute;
-    min-width: 110px;
+    min-width: 130px;
   }
 
   img {
-    width: 280px;
-    max-width: 90%;
+    width: 100%;
+    max-width: 350px;
     border-radius: 18px;
     margin-top: 25px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.4);
   }
 
+  .heart-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
   @keyframes fade {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 1.8rem; }
+    p { font-size: 1rem; }
   }
 </style>
 </head>
@@ -81,7 +111,7 @@
     Just wanted a small moment of your attention.<br>
     Promise it's worth it.
   </p>
-  <button onclick="next()">Okay…</button>
+  <button class="single-button" onclick="next()">Okay…</button>
 </div>
 
 <!-- SCREEN 2 -->
@@ -91,7 +121,7 @@
     You make ordinary days feel special.<br>
     That's kind of your superpower.
   </p>
-  <button onclick="next()">Hmm…</button>
+  <button class="single-button" onclick="next()">Hmm…</button>
 </div>
 
 <!-- SCREEN 3 -->
@@ -101,35 +131,39 @@
     You smiled a little reading that, didn't you?<br>
     Yeah… I saw that 😌
   </p>
-  <button onclick="next()">Keep going</button>
+  <button class="single-button" onclick="next()">Keep going</button>
 </div>
 
-<!-- SCREEN 4 – QUESTION -->
+<!-- SCREEN 4 – BUILD UP TO QUESTION -->
 <div class="screen">
   <h1>Okay… real question now 💖</h1>
   <p>
     No overthinking.<br>
     Just your heart answering.
   </p>
-
-  <button id="yesBtn" onclick="sayYes()">Yes ❤️</button>
-  <button id="noBtn">No 🙃</button>
+  <button class="single-button" onclick="next()">I'm ready</button>
 </div>
 
-<!-- RESULT SCREEN -->
+<!-- SCREEN 5 – THE ACTUAL QUESTION WITH YES/NO -->
+<div class="screen">
+  <h1>Will you be my Valentine? 💕</h1>
+
+  <div class="button-container">
+    <button id="yesBtn" onclick="sayYes()">Yes ❤️</button>
+    <button id="noBtn">No 🙃</button>
+  </div>
+</div>
+
+<!-- RESULT SCREEN - SHOWS AFTER YES -->
 <div class="screen" id="result">
-  <h1>❤️</h1>
-  <p>
-    "I choose you.  
-    And I'll choose you again and again —  
-    without pause, without doubt."
+  <div class="heart-icon">❤️</div>
+  <p style="font-size: 1.15rem; line-height: 1.8;">
+    "I choose you. And I'll choose you<br>
+    again and again — without<br>
+    pause, without doubt."
   </p>
 
-  <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80" alt="Valentine Love">
-
-  <p style="margin-top:20px;">
-    Will you be my Valentine? 💕
-  </p>
+  <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80" alt="Valentine Love">
 </div>
 
 <script>
@@ -143,16 +177,20 @@
     screens[current].classList.add("active");
   }
 
-  function moveNoButton() {
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
+  function moveNoButton(e) {
+    e.preventDefault();
+    const maxX = window.innerWidth - 150;
+    const maxY = window.innerHeight - 80;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
   }
 
-  // Make NO impossible (hover + touch)
+  // Make NO button impossible to click
   noBtn.addEventListener("mouseover", moveNoButton);
   noBtn.addEventListener("touchstart", moveNoButton);
+  noBtn.addEventListener("click", moveNoButton);
 
   function sayYes() {
     screens[current].classList.remove("active");
